@@ -1,7 +1,21 @@
 package main
 
-import "fmt"
+import (
+	"context"
+	"github.com/KRUL-marketplace/krul_backend/internal/product_service/internal/app"
+	"log"
+)
 
 func main() {
-	fmt.Println("Product service started")
+	ctx := context.Background()
+
+	a, err := app.NewApp(ctx)
+	if err != nil {
+		log.Fatalf("failed to init app: %s", err.Error())
+	}
+
+	err = a.Run()
+	if err != nil {
+		log.Fatalf("failed to run app: %s", err.Error())
+	}
 }
