@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  product-service:
+    restart: always
+    build: ./internal/user-service
+    ports:
+      - 50053:50051
+
+  user-service:
+    restart: always
+    build: ./internal/product-service
+    ports:
+      - 50054:50052
