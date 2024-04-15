@@ -17,6 +17,8 @@ const (
 	nameColumn        = "name"
 	descriptionColumn = "description"
 	priceColumn       = "price"
+	createdAtColumn   = "created_at"
+	updatedAtColumn   = "updated_at"
 )
 
 type repo struct {
@@ -55,8 +57,8 @@ func (r *repo) Create(ctx context.Context, product *model.ProductInfo) (string, 
 	return id, nil
 }
 
-func (r *repo) Get(ctx context.Context, id string) (*model.Product, error) {
-	builder := sq.Select(idColumn, nameColumn, descriptionColumn, priceColumn).
+func (r *repo) GetById(ctx context.Context, id string) (*model.Product, error) {
+	builder := sq.Select(idColumn, nameColumn, descriptionColumn, priceColumn, createdAtColumn, updatedAtColumn).
 		PlaceholderFormat(sq.Dollar).
 		From(tableName).
 		Where(sq.Eq{idColumn: id}).
@@ -68,7 +70,7 @@ func (r *repo) Get(ctx context.Context, id string) (*model.Product, error) {
 	}
 
 	q := db.Query{
-		Name:     "product_repository.Get",
+		Name:     "product_repository.GetById",
 		QueryRaw: query,
 	}
 
@@ -81,4 +83,44 @@ func (r *repo) Get(ctx context.Context, id string) (*model.Product, error) {
 	}
 
 	return converter.ToProductFromRepo(&product), nil
+}
+
+func (r *repo) GetAll(ctx context.Context) ([]*model.Product, error) {
+	builder := sq.Select(idColumn, nameColumn, descriptionColumn, priceColumn, createdAtColumn, updatedAtColumn).
+		From(tableName).
+		PlaceholderFormat(sq.Dollar)
+
+	query, args, err := builder.ToSql()
+	if err != nil {
+		return nil, err
+	}
+
+	q := db.Query{
+		Name:     "product_repository.GetAll",
+		QueryRaw: query,
+	}
+
+	rows, err := r.db.DB().QueryContext(ctx, q, args...)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var products []*model.Product
+	for rows.Next() {
+		var product model.Product
+		err := rows.Scan(&product.ID, &product.Info.Name, &product.Info.Description,
+			&product.Info.Price, &product.CreatedAt, &product.UpdatedAt)
+
+		if err != nil {
+			return nil, err
+		}
+		products = append(products, converter.ToProductFromRepo(&product))
+	}
+
+	if err = rows.Err(); err != nil {
+		return nil, err
+	}
+
+	return products, nil
 }
