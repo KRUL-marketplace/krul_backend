@@ -7,4 +7,5 @@ import (
 
 type ProductService interface {
 	Create(ctx context.Context, info *model.ProductInfo) (string, error)
+	Get(ctx context.Context, id string) (*model.Product, error)
 }

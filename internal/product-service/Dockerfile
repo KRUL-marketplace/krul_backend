@@ -19,6 +19,9 @@ RUN apk --no-cache add ca-certificates
 
 RUN mkdir /app
 WORKDIR /app
+
+COPY .env .
+
 COPY --from=builder /app/product-service .
 
 CMD ["./product-service"]

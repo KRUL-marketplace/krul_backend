@@ -6,14 +6,14 @@ import (
 )
 
 type Product struct {
-	ID        string
-	Info      ProductInfo
-	CreatedAt time.Time
-	UpdateAt  sql.NullTime
+	ID        string       `db:"id"`
+	Info      ProductInfo  `db:""`
+	CreatedAt time.Time    `db:"created_at"`
+	UpdatedAt sql.NullTime `db:"updated_at"`
 }
 
 type ProductInfo struct {
-	Name        string
-	Description string
-	Price       uint32
+	Name        string `db:"name"`
+	Description string `db:"description"`
+	Price       uint32 `db:"price"`
 }
