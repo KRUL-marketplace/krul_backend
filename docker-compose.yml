@@ -1,0 +1,26 @@
+version: '3.8'
+
+volumes:
+  postgres_volume:
+
+services:
+  product-service:
+    restart: always
+    build: ./internal/product-service
+    ports:
+      - 50053:50051
+
+  user-service:
+    restart: always
+    build: ./internal/user-service
+    ports:
+      - 50054:50052
+
+  products-db:
+    image: postgres:14-alpine3.17
+    env_file:
+      - ./internal/product-service/.env
+    ports:
+      - "54321:5432"
+    volumes:
+      - postgres_volume:/var/lib/postgresql/data

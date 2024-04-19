@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package product;
+
+option go_package = "github.com/KRUL-marketplace/krul_backend/internal/product_service/config/pkg/product_service;product_service";
+
+service ProductService {
+  rpc Create(CreateRequest) returns (CreateResponse);
+}
+
+message ProductInfo {
+  string name = 1;
+  string description = 2;
+  uint32 price = 3;
+}
+
+message CreateRequest {
+  ProductInfo info = 1;
+}
+
+message CreateResponse {
+  string id = 1;
+}
