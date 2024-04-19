@@ -14,6 +14,7 @@ type Product struct {
 
 type ProductInfo struct {
 	Name        string `db:"name"`
+	Slug        string `db:"slug"`
 	Description string `db:"description"`
 	Price       uint32 `db:"price"`
 }

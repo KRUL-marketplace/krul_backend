@@ -9,6 +9,7 @@ import (
 func ToProductInfoFromDesc(info *desc.ProductInfo) *model.ProductInfo {
 	return &model.ProductInfo{
 		Name:        info.Name,
+		Slug:        info.Slug,
 		Description: info.Description,
 		Price:       info.Price,
 	}
@@ -31,6 +32,7 @@ func ToProductFromService(product *model.Product) *desc.Product {
 func ToProductInfoFromService(info model.ProductInfo) *desc.ProductInfo {
 	return &desc.ProductInfo{
 		Name:        info.Name,
+		Slug:        info.Slug,
 		Description: info.Description,
 		Price:       info.Price,
 	}
@@ -48,6 +50,7 @@ func ToProductFromRepo(product *model.Product) *model.Product {
 func ToProductInfoFromRepo(info model.ProductInfo) model.ProductInfo {
 	return model.ProductInfo{
 		Name:        info.Name,
+		Slug:        info.Slug,
 		Description: info.Description,
 		Price:       info.Price,
 	}

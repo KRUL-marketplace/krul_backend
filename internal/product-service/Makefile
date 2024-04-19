@@ -20,6 +20,7 @@ install-deps:
 get-deps:
 	go get -u google.golang.org/protobuf/cmd/protoc-gen-go
 	go get -u google.golang.org/grpc/cmd/protoc-gen-go-grpc
+	go get -u github.com/gosimple/slug
 
 generate:
 	make generate-product-service-api
@@ -38,6 +39,15 @@ generate-product-service-api:
 	--openapiv2_out=allow_merge=true,merge_file_name=api:pkg/swagger \
 	--plugin=protoc-gen-openapiv2=bin/protoc-gen-openapiv2 \
 	api/product.proto
+
+local-migration-status:
+	$(LOCAL_BIN)/goose -dir ${LOCAL_MIGRATION_DIR} postgres ${LOCAL_MIGRATION_DSN} status -v
+
+local-migration-up:
+	$(LOCAL_BIN)/goose -dir ${LOCAL_MIGRATION_DIR} postgres ${LOCAL_MIGRATION_DSN} up -v
+
+local-migration-down:
+	$(LOCAL_BIN)/goose -dir ${LOCAL_MIGRATION_DIR} postgres ${LOCAL_MIGRATION_DSN} down -v
 
 vendor-proto:
 		@if [ ! -d vendor.protogen/validate ]; then \
@@ -58,3 +68,9 @@ vendor-proto:
 			mv vendor.protogen/openapiv2/protoc-gen-openapiv2/options/*.proto vendor.protogen/protoc-gen-openapiv2/options &&\
 			rm -rf vendor.protogen/openapiv2 ;\
 		fi
+		@if [ ! -d vendor.protogen/grpc-graphql-gateway ]; then \
+  			mkdir -p vendor.protogen/graphql-gateway &&\
+  			git clone https://github.com/ysugimoto/grpc-graphql-gateway.git vendor.protogen/grpc-graphql-gateway &&\
+  			mv vendor.protogen/grpc-graphql-gateway/include/graphql/*.proto vendor.protogen/graphql-gateway &&\
+  			rm -rf vendor.protogen/grpc-graphql-gateway ;\
+  		fi

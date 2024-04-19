@@ -16,8 +16,8 @@ func (i *Implementation) GetAll(ctx context.Context, _ *desc.GetAllRequest) (*de
 	var productMessages []*desc.Product
 
 	for _, product := range products {
-		log.Printf("id: %s, name: %s, description: %s, price: %d, created_at: %v, updated_at:%v\n",
-			product.ID, product.Info.Name, product.Info.Description, product.Info.Description)
+		log.Printf("id: %s, name: %s, slug: %s, description: %s, price: %d, created_at: %v, updated_at:%v\n",
+			product.ID, product.Info.Name, product.Info.Slug, product.Info.Description, product.Info.Description)
 
 		productMessage := converter.ToProductFromService(product)
 		productMessages = append(productMessages, productMessage)
@@ -26,6 +26,6 @@ func (i *Implementation) GetAll(ctx context.Context, _ *desc.GetAllRequest) (*de
 	response := &desc.GetAllResponse{
 		Product: productMessages,
 	}
-	
+
 	return response, nil
 }

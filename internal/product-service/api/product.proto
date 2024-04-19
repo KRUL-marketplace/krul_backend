@@ -5,33 +5,48 @@ package product;
 import "google/protobuf/timestamp.proto";
 import "google/api/annotations.proto";
 
-option go_package = "github.com/KRUL-marketplace/krul_backend/internal/product_service/config/pkg/product_service;product_service";
+option go_package = "github.com/KRUL-marketplace/krul_backend/internal/product_service;product_service";
 
 service ProductService {
   rpc Create(CreateRequest) returns (CreateResponse) {
     option (google.api.http) = {
-      post: "/v1/products"
-      body: "*",
+      post: "/v1/product",
+      body: "*"
     };
   }
-
+  rpc Update(UpdateRequest) returns (CreateResponse) {
+    option (google.api.http) = {
+      put: "/v1/product/{id}",
+      body: "*"
+    };
+  }
+  rpc GetById(GetByIdRequest) returns (GetByIdResponse) {
+    option (google.api.http) = {
+      get: "/v1/product/{id}"
+    };
+  }
+  rpc GetBySlug(GetBySlugRequest) returns (GetBySlugResponse) {
+    option (google.api.http) = {
+      get: "/v1/product/by-slug/{slug}"
+    };
+  }
   rpc GetAll(GetAllRequest) returns (GetAllResponse) {
     option (google.api.http) = {
       get: "/v1/products"
     };
   }
-
-  rpc GetById(GetByIdRequest) returns (GetByIdResponse) {
+  rpc DeleteById(DeleteByIdRequest) returns (DeleteByIdResponse) {
     option (google.api.http) = {
-      get: "/v1/product"
+      delete: "/v1/product/{id}"
     };
   }
 }
 
 message ProductInfo {
   string name = 1;
-  string description = 2;
-  uint32 price = 3;
+  string slug = 2;
+  string description = 3;
+  uint32 price = 4;
 }
 
 message Product {
@@ -49,6 +64,11 @@ message CreateResponse {
   string id = 1;
 }
 
+message UpdateRequest {
+  string id = 1;
+  ProductInfo info = 2;
+}
+
 message GetByIdRequest {
   string id = 1;
 }
@@ -57,8 +77,24 @@ message GetByIdResponse {
   Product product = 1;
 }
 
+message GetBySlugRequest {
+  string slug = 1;
+}
+
+message GetBySlugResponse {
+  Product product = 1;
+}
+
 message GetAllRequest {}
 
 message GetAllResponse {
   repeated Product product = 1;
+}
+
+message DeleteByIdRequest {
+  string id = 1;
+}
+
+message DeleteByIdResponse {
+  string message = 1;
 }
