@@ -6,13 +6,13 @@ import (
 	"github.com/gosimple/slug"
 )
 
-func (s *serv) Create(ctx context.Context, info *model.ProductInfo) (string, error) {
+func (s *serv) Update(ctx context.Context, id string, info *model.ProductInfo) (string, error) {
 	info.Slug = slug.Make(info.Name)
 
-	var id string
+	var resId string
 	err := s.txManager.ReadCommitted(ctx, func(ctx context.Context) error {
 		var errTx error
-		id, errTx = s.productRepository.Create(ctx, info)
+		resId, errTx = s.productRepository.Update(ctx, id, info)
 		if errTx != nil {
 			return errTx
 		}
@@ -24,5 +24,5 @@ func (s *serv) Create(ctx context.Context, info *model.ProductInfo) (string, err
 		return "", err
 	}
 
-	return id, nil
+	return resId, nil
 }

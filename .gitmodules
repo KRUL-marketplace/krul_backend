@@ -1,0 +1,3 @@
+[submodule "internal/product-service/grpc-graphql-gateway"]
+	path = internal/product-service/grpc-graphql-gateway
+	url = https://github.com/ysugimoto/grpc-graphql-gateway.git
