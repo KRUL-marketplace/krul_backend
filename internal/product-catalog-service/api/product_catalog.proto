@@ -1,0 +1,200 @@
+syntax = "proto3";
+
+package product;
+
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+
+option go_package = "github.com/KRUL-marketplace/krul_backend/internal/product_service;product_service";
+
+service ProductCatalogService {
+  rpc CreateProduct(CreateProductRequest) returns (CreateProductResponse) {
+    option (google.api.http) = {
+      post: "/v1/product",
+      body: "*"
+    };
+  }
+  rpc UpdateProduct(UpdateProductRequest) returns (CreateProductResponse) {
+    option (google.api.http) = {
+      put: "/v1/product/{id}",
+      body: "*"
+    };
+  }
+  rpc GetProductById(GetProductByIdRequest) returns (GetProductByIdResponse) {
+    option (google.api.http) = {
+      get: "/v1/product/{id}"
+    };
+  }
+  rpc GetProductBySlug(GetProductBySlugRequest) returns (GetProductBySlugResponse) {
+    option (google.api.http) = {
+      get: "/v1/product/by-slug/{slug}"
+    };
+  }
+  rpc GetAllProducts(GetAllProductsRequest) returns (GetAllProductsResponse) {
+    option (google.api.http) = {
+      get: "/v1/products"
+    };
+  }
+  rpc DeleteProductById(DeleteProductByIdRequest) returns (DeleteProductByIdResponse) {
+    option (google.api.http) = {
+      delete: "/v1/product/{id}"
+    };
+  }
+  rpc CreateCategory(CreateCategoryRequest) returns (CreateCategoryResponse) {
+    option (google.api.http) = {
+      post: "/v1/category",
+      body: "*"
+    };
+  }
+  rpc UpdateCategory(UpdateCategoryRequest) returns (UpdateCategoryResponse) {
+    option (google.api.http) = {
+      put: "/v1/category/{id}",
+      body: "*"
+    };
+  }
+  rpc GetAllCategories(GetAllCategoriesRequest) returns (GetAllCategoriesResponse) {
+    option (google.api.http) = {
+      get: "/v1/categories"
+    };
+  }
+  rpc GetCategoryById(GetCategoryByIdRequest) returns (GetCategoryByIdResponse) {
+    option (google.api.http) = {
+      get: "/v1/category/{id}"
+    };
+  }
+  rpc GetCategoryBySlug(GetCategoryBySlugRequest) returns (GetCategoryBySlugResponse) {
+    option (google.api.http) = {
+      get: "/v1/category/by-slug/{slug}"
+    };
+  }
+  rpc DeleteCategoryById(DeleteCategoryByIdRequest) returns (DeleteCategoryByIdResponse) {
+    option (google.api.http) = {
+      delete: "/v1/category/{id}"
+    };
+  }
+}
+
+message ProductInfo {
+  string name = 1;
+  string slug = 2;
+  string description = 3;
+  uint32 price = 4;
+  repeated Category categories = 5;
+}
+
+message CreateProductInfo {
+  string name = 1;
+  string slug = 2;
+  string description = 3;
+  uint32 price = 4;
+  repeated uint32 categories = 5;
+}
+
+message Product {
+  string id = 1;
+  ProductInfo info = 2;
+  google.protobuf.Timestamp created_at = 3;
+  google.protobuf.Timestamp updated_at = 4;
+}
+
+message CreateProductRequest {
+  CreateProductInfo info = 1;
+}
+
+message CreateProductResponse {
+  string id = 1;
+}
+
+message UpdateProductRequest {
+  string id = 1;
+  CreateProductInfo info = 2;
+}
+
+message GetProductByIdRequest {
+  string id = 1;
+}
+
+message GetProductByIdResponse {
+  Product product = 1;
+}
+
+message GetProductBySlugRequest {
+  string slug = 1;
+}
+
+message GetProductBySlugResponse {
+  Product product = 1;
+}
+
+message GetAllProductsRequest {}
+
+message GetAllProductsResponse {
+  repeated Product product = 1;
+}
+
+message DeleteProductByIdRequest {
+  string id = 1;
+}
+
+message DeleteProductByIdResponse {
+  string message = 1;
+}
+
+message CreateCategoryRequest {
+  CategoryInfo info = 1;
+}
+
+message CreateCategoryResponse {
+  uint32 id = 1;
+}
+
+message UpdateCategoryRequest {
+  uint32 id = 1;
+  CategoryInfo info = 2;
+}
+
+message UpdateCategoryResponse {
+  string message = 1;
+}
+
+message GetAllCategoriesRequest {}
+
+message GetAllCategoriesResponse {
+  repeated Category categories = 1;
+}
+
+message GetCategoryByIdRequest {
+  uint32 id = 1;
+}
+
+message GetCategoryByIdResponse {
+  Category category = 1;
+}
+
+message GetCategoryBySlugRequest {
+  string slug = 1;
+}
+
+message GetCategoryBySlugResponse {
+  Category category = 1;
+}
+
+message DeleteCategoryByIdRequest {
+  uint32 id = 1;
+}
+
+message DeleteCategoryByIdResponse {
+  string message = 1;
+}
+
+message CategoryInfo {
+  string name = 1;
+  string slug = 2;
+}
+
+message Category {
+  uint32 id = 1;
+  CategoryInfo info = 2;
+  google.protobuf.Timestamp created_at = 3;
+  google.protobuf.Timestamp updated_at = 4;
+}
