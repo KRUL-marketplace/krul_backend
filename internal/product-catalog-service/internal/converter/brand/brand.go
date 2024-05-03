@@ -8,8 +8,9 @@ import (
 
 func ToBrandInfoFromDesc(info *desc.BrandInfo) *model.BrandInfo {
 	return &model.BrandInfo{
-		Name: info.Name,
-		Slug: info.Slug,
+		Name:        info.Name,
+		Slug:        info.Slug,
+		Description: info.Description,
 	}
 }
 
@@ -29,8 +30,9 @@ func ToBrandFromService(category *model.Brand) *desc.Brand {
 
 func ToBrandInfoFromService(info model.BrandInfo) *desc.BrandInfo {
 	return &desc.BrandInfo{
-		Name: info.Name,
-		Slug: info.Slug,
+		Name:        info.Name,
+		Slug:        info.Slug,
+		Description: info.Description,
 	}
 }
 
@@ -45,7 +47,8 @@ func ToBrandFromRepo(category *model.Brand) *model.Brand {
 
 func ToBrandInfoFromRepo(info model.BrandInfo) model.BrandInfo {
 	return model.BrandInfo{
-		Name: info.Name,
-		Slug: info.Slug,
+		Name:        info.Name,
+		Slug:        info.Slug,
+		Description: info.Description,
 	}
 }
