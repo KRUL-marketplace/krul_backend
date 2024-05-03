@@ -8,8 +8,10 @@ import (
 	"product-catalog-service/client/db/transaction"
 	"product-catalog-service/internal/api"
 	"product-catalog-service/internal/config"
+	brandRepository "product-catalog-service/internal/repository/brand"
 	categoryRepository "product-catalog-service/internal/repository/category"
 	productRepository "product-catalog-service/internal/repository/product"
+	brandService "product-catalog-service/internal/service/brand"
 	categoryService "product-catalog-service/internal/service/category"
 	productService "product-catalog-service/internal/service/product"
 )
@@ -20,6 +22,9 @@ type serviceProvider struct {
 
 	categoryRepository categoryRepository.Repository
 	categoryService    categoryService.CategoryService
+
+	brandRepository brandRepository.Repository
+	brandService    brandService.BrandService
 
 	grpcConfig config.GRPCConfig
 	httpConfig config.HTTPConfig
@@ -101,6 +106,14 @@ func (s *serviceProvider) CategoryRepository(ctx context.Context) categoryReposi
 	return s.categoryRepository
 }
 
+func (s *serviceProvider) BrandRepository(ctx context.Context) brandRepository.Repository {
+	if s.brandRepository == nil {
+		s.brandRepository = brandRepository.NewRepository(s.DBClient(ctx))
+	}
+
+	return s.brandRepository
+}
+
 func (s *serviceProvider) CategoryService(ctx context.Context) categoryService.CategoryService {
 	if s.categoryService == nil {
 		s.categoryService = categoryService.NewService(
@@ -112,9 +125,20 @@ func (s *serviceProvider) CategoryService(ctx context.Context) categoryService.C
 	return s.categoryService
 }
 
+func (s *serviceProvider) BrandService(ctx context.Context) brandService.BrandService {
+	if s.brandService == nil {
+		s.brandService = brandService.NewService(
+			s.BrandRepository(ctx),
+			s.TxManager(ctx),
+		)
+	}
+
+	return s.brandService
+}
+
 func (s *serviceProvider) ProductCatalogImpl(ctx context.Context) *api.Implementation {
 	if s.productCatalogImpl == nil {
-		s.productCatalogImpl = api.NewImplementation(s.ProductService(ctx), s.CategoryService(ctx))
+		s.productCatalogImpl = api.NewImplementation(s.ProductService(ctx), s.CategoryService(ctx), s.BrandService(ctx))
 	}
 
 	return s.productCatalogImpl
