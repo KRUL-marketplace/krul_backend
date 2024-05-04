@@ -2,7 +2,7 @@
 -- +goose StatementBegin
 create table if not exists brands
 (
-    id serial primary key,
+    id  serial primary key,
     name text unique not null,
     slug text not null,
     description text not null,

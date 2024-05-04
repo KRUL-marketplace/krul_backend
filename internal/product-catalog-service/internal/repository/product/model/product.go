@@ -2,7 +2,9 @@ package model
 
 import (
 	"database/sql"
-	"product-catalog-service/internal/repository/category/model"
+	brandModel "product-catalog-service/internal/repository/brand/model"
+	categoryModel "product-catalog-service/internal/repository/category/model"
+
 	"time"
 )
 
@@ -18,7 +20,8 @@ type GetProductInfo struct {
 	Slug        string `db:"slug"`
 	Description string `db:"description"`
 	Price       uint32 `db:"price"`
-	Categories  []model.Category
+	Categories  []categoryModel.Category
+	Brand       brandModel.Brand `db:""`
 }
 
 type CreateProduct struct {
@@ -27,4 +30,5 @@ type CreateProduct struct {
 	Description string
 	Price       uint32
 	Categories  []uint32
+	BrandId     uint32
 }

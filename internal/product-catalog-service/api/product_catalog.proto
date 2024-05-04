@@ -112,6 +112,7 @@ message ProductInfo {
   string description = 3;
   uint32 price = 4;
   repeated Category categories = 5;
+  Brand brand = 6;
 }
 
 message CreateProductInfo {
@@ -120,6 +121,7 @@ message CreateProductInfo {
   string description = 3;
   uint32 price = 4;
   repeated uint32 categories = 5;
+  uint32 brandId = 6;
 }
 
 message Product {

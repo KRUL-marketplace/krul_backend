@@ -14,16 +14,16 @@ func ToBrandInfoFromDesc(info *desc.BrandInfo) *model.BrandInfo {
 	}
 }
 
-func ToBrandFromService(category *model.Brand) *desc.Brand {
+func ToBrandFromService(brand *model.Brand) *desc.Brand {
 	var updatedAt *timestamppb.Timestamp
-	if category.UpdatedAt.Valid {
-		updatedAt = timestamppb.New(category.UpdatedAt.Time)
+	if brand.UpdatedAt.Valid {
+		updatedAt = timestamppb.New(brand.UpdatedAt.Time)
 	}
 
 	return &desc.Brand{
-		Id:        category.ID,
-		Info:      ToBrandInfoFromService(category.Info),
-		CreatedAt: timestamppb.New(category.CreatedAt),
+		Id:        brand.ID,
+		Info:      ToBrandInfoFromService(brand.Info),
+		CreatedAt: timestamppb.New(brand.CreatedAt),
 		UpdatedAt: updatedAt,
 	}
 }
@@ -36,12 +36,12 @@ func ToBrandInfoFromService(info model.BrandInfo) *desc.BrandInfo {
 	}
 }
 
-func ToBrandFromRepo(category *model.Brand) *model.Brand {
+func ToBrandFromRepo(brand *model.Brand) *model.Brand {
 	return &model.Brand{
-		ID:        category.ID,
-		Info:      ToBrandInfoFromRepo(category.Info),
-		CreatedAt: category.CreatedAt,
-		UpdatedAt: category.UpdatedAt,
+		ID:        brand.ID,
+		Info:      ToBrandInfoFromRepo(brand.Info),
+		CreatedAt: brand.CreatedAt,
+		UpdatedAt: brand.UpdatedAt,
 	}
 }
 
