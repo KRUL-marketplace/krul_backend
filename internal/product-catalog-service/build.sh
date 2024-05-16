@@ -19,12 +19,8 @@ fi
 # Выполнение make команд до generate (включительно)
 make vendor-proto
 make install-golangci-lint
-make lint
 make install-deps
 make get-deps
 make generate
-
-# Сборка docker контейнера
-sudo docker compose up --build
 
 echo "Сборка завершена!"
