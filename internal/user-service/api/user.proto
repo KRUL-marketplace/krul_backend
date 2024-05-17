@@ -1,0 +1,123 @@
+syntax = "proto3";
+
+package user;
+
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+import "protoc-gen-openapiv2/options/annotations.proto";
+
+// Указание пути для сгенерированного кода на Go.
+option go_package = "github.com/KRUL-marketplace/krul_backend/internal/user_service;user_service";
+
+option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
+  info: {
+    title: "Krul API"
+    version: "1.0.0"
+  };
+
+  host: "localhost:8081",
+  schemes: HTTP,
+  schemes: HTTPS,
+  consumes: "application/json",
+  produces: "application/json"
+};
+
+// Описание сервиса UserService
+service UserService {
+  // Создание нового пользователя
+  rpc Create(CreateUserInfoRequest) returns (CreateUserInfoResponse) {
+    option (google.api.http) = {
+      post: "/v1/user/create",
+      body: "*"
+    };
+  }
+  // Обноваление данных пользователя
+  rpc Update(UpdateRequest) returns (UpdateResponse) {
+    option (google.api.http) = {
+      put: "/v1/user/update/{id}",
+      body: "*"
+    };
+  }
+  // Получить всех пользователей
+  rpc GetAll(GetAllRequest) returns (GetAllResponse) {
+    option (google.api.http) = {
+      get: "/v1/user/users"
+    };
+  }
+  // Получить пользователя по ID
+  rpc GetById(GetByIdRequest) returns (GetByIdResponse) {
+    option (google.api.http) = {
+      get: "/v1/user/by-id/{id}"
+    };
+  }
+  // Удалить пользователя по ID
+  rpc DeleteById(DeleteByIdRequest) returns (DeleteByIdResponse) {
+    option (google.api.http) = {
+      delete: "/v1/user/by-id/{id}"
+    };
+  }
+}
+
+// Пользователь
+message User {
+  string id = 1; // Идентификатор пользователя
+  UserInfo info = 2; // Информация о пользователе
+  google.protobuf.Timestamp created_at = 3; // Время создания пользователя
+  google.protobuf.Timestamp updated_at = 4; // Время последнего обновления пользователя
+}
+
+// Информация о пользователе
+message UserInfo {
+  string phoneNumber = 1; // Номер телефона
+  string name = 2; // Имя пользователя
+}
+
+// Информация для создания нового пользователя
+message CreateUserInfoRequest {
+  UserInfo info = 1; // Информация о пользователе
+}
+
+// Ответ на запрос создания нового пользователя
+message CreateUserInfoResponse {
+  string id = 1; // Идентификатор созданного пользователя
+}
+
+// Запрос на получение пользователя по идентификатору
+message GetByIdRequest {
+  string id = 1; // ID пользователя
+}
+
+// Ответ на запрос пользователя по ID
+message GetByIdResponse {
+  // Информация о пользователе
+  User user = 1;
+}
+
+// Запрос на получение всех пользователей
+message GetAllRequest {}
+
+// Ответ на запрос получения списка всех пользователей
+message GetAllResponse {
+  repeated User users = 1; // Все пользователи
+}
+
+// Запрос для удаления пользователя
+message DeleteByIdRequest {
+  string id = 1; // Идентификатор пользователя
+}
+
+// Ответ на удаление пользователя
+message DeleteByIdResponse {
+  string message = 1; // Сообщение об успешном удалении пользователя
+}
+
+// Запрос на обновление пользователя
+message UpdateRequest {
+  string id = 1; // Идентификтаор пользователя
+  UserInfo info = 2; // Информация о пользователе
+}
+
+// Ответ на обновление пользователя
+message UpdateResponse {
+  string id = 1; // Идентификатор пользователя
+}
