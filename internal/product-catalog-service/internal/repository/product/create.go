@@ -11,8 +11,8 @@ import (
 func (r *repo) Create(ctx context.Context, product *model.CreateProduct) (string, error) {
 	builder := sq.Insert(tableName).
 		PlaceholderFormat(sq.Dollar).
-		Columns(nameColumn, slugColumn, descriptionColumn, priceColumn).
-		Values(product.Name, product.Slug, product.Description, product.Price).
+		Columns(nameColumn, slugColumn, descriptionColumn, priceColumn, brandIdColumn).
+		Values(product.Name, product.Slug, product.Description, product.Price, product.BrandId).
 		Suffix("RETURNING " + idColumn)
 
 	query, args, err := builder.ToSql()
