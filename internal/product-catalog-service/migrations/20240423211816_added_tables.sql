@@ -15,7 +15,7 @@ create table if not exists products
 create table if not exists categories
 (
     id serial primary key,
-    name text not null,
+    name text unique not null,
     slug text not null,
     created_at timestamp not null default now(),
     updated_at timestamp

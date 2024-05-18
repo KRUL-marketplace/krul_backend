@@ -72,6 +72,38 @@ service ProductCatalogService {
       delete: "/v1/category/{id}"
     };
   }
+  rpc CreateBrand(CreateBrandRequest) returns (CreateBrandResponse) {
+    option (google.api.http) = {
+      post: "/v1/brand",
+      body: "*"
+    };
+  }
+  rpc UpdateBrand(UpdateBrandRequest) returns (UpdateBrandResponse) {
+    option (google.api.http) = {
+      put: "/v1/brand/{id}",
+      body: "*"
+    };
+  }
+  rpc GetAllBrands(GetAllBrandsRequest) returns (GetAllBrandsResponse) {
+    option (google.api.http) = {
+      get: "/v1/brands"
+    };
+  }
+  rpc GetBrandById(GetBrandByIdRequest) returns (GetBrandByIdResponse) {
+    option (google.api.http) = {
+      get: "/v1/brand/{id}"
+    };
+  }
+  rpc GetBrandBySlug(GetBrandBySlugRequest) returns (GetBrandBySlugResponse) {
+    option (google.api.http) = {
+      get: "/v1/brand/by-slug/{slug}"
+    };
+  }
+  rpc DeleteBrandById(DeleteBrandByIdRequest) returns (DeleteBrandByIdResponse) {
+    option (google.api.http) = {
+      delete: "/v1/brand/{id}"
+    };
+  }
 }
 
 message ProductInfo {
@@ -187,6 +219,53 @@ message DeleteCategoryByIdResponse {
   string message = 1;
 }
 
+message CreateBrandRequest {
+  BrandInfo info = 1;
+}
+
+message CreateBrandResponse {
+  uint32 id = 1;
+}
+
+message UpdateBrandRequest {
+  uint32 id = 1;
+  BrandInfo info = 2;
+}
+
+message UpdateBrandResponse {
+  string message = 1;
+}
+
+message GetAllBrandsRequest {}
+
+message GetAllBrandsResponse {
+  repeated Brand brands = 1;
+}
+
+message GetBrandByIdRequest {
+  uint32 id = 1;
+}
+
+message GetBrandByIdResponse {
+  Brand brand = 1;
+}
+
+message GetBrandBySlugRequest {
+  string slug = 1;
+}
+
+message GetBrandBySlugResponse {
+  Brand brand = 1;
+}
+
+message DeleteBrandByIdRequest {
+  uint32 id = 1;
+}
+
+message DeleteBrandByIdResponse {
+  string message = 1;
+}
+
 message CategoryInfo {
   string name = 1;
   string slug = 2;
@@ -195,6 +274,19 @@ message CategoryInfo {
 message Category {
   uint32 id = 1;
   CategoryInfo info = 2;
+  google.protobuf.Timestamp created_at = 3;
+  google.protobuf.Timestamp updated_at = 4;
+}
+
+message BrandInfo {
+  string name = 1;
+  string slug = 2;
+  string description = 3;
+}
+
+message Brand {
+  uint32 id = 1;
+  BrandInfo info = 2;
   google.protobuf.Timestamp created_at = 3;
   google.protobuf.Timestamp updated_at = 4;
 }
