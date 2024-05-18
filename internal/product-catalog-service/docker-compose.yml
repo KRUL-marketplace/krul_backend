@@ -5,6 +5,7 @@ volumes:
 
 services:
   postgres:
+    hostname: postgres
     image: postgres:14-alpine
     env_file:
       - .env
