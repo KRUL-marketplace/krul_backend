@@ -29,7 +29,6 @@ if [ -f "swagger.zip" ]; then
   unzip swagger.zip -d swagger_temp
   mv swagger_temp/* pkg/swagger/
   rm -rf swagger_temp
-  rm swagger.zip
   echo "Содержимое архива swagger.zip перемещено в pkg/swagger."
 else
   echo "Файл swagger.zip не найден."
