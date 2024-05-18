@@ -30,10 +30,13 @@ get-deps:
 	go get -u github.com/Masterminds/squirrel
 	go get -u github.com/lib/pq
 	go get -u github.com/google/uuid
+	go get -u github.com/rakyll/statik
 
 
 generate:
+	mkdir -p pkg/swagger
 	make generate-product-catalog-service-api
+	$(LOCAL_BIN)/statik -src=pkg/swagger/ -include='*.css,*.html,*.js,*.json,*.png'
 
 generate-product-catalog-service-api:
 	mkdir -p pkg

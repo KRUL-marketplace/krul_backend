@@ -13,6 +13,7 @@ func ToProductInfoFromDesc(info *desc.CreateProductInfo) *model.CreateProduct {
 		Description: info.Description,
 		Price:       info.Price,
 		Categories:  info.Categories,
+		BrandId:     info.BrandId,
 	}
 
 	return product
@@ -38,6 +39,14 @@ func ToProductInfoFromService(info model.GetProductInfo) *desc.ProductInfo {
 		Slug:        info.Slug,
 		Description: info.Description,
 		Price:       info.Price,
+		Brand: &desc.Brand{
+			Id: info.Brand.ID,
+			Info: &desc.BrandInfo{
+				Name:        info.Brand.Info.Name,
+				Slug:        info.Brand.Info.Slug,
+				Description: info.Brand.Info.Description,
+			},
+		},
 	}
 
 	for _, category := range info.Categories {
@@ -69,5 +78,6 @@ func ToProductInfoFromRepo(info model.GetProductInfo) model.GetProductInfo {
 		Description: info.Description,
 		Price:       info.Price,
 		Categories:  info.Categories,
+		Brand:       info.Brand,
 	}
 }

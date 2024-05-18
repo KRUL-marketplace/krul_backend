@@ -1,7 +1,20 @@
 package main
 
-import "fmt"
+import (
+	"context"
+	"log"
+	"user-service/internal/app"
+)
 
 func main() {
-	fmt.Println("User service started")
+	ctx := context.Background()
+	a, err := app.NewApp(ctx)
+	if err != nil {
+		log.Fatalf("failed to init app: %s", err.Error())
+	}
+
+	err = a.Run()
+	if err != nil {
+		log.Fatalf("failed to run: %s", err.Error())
+	}
 }
