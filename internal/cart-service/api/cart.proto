@@ -1,0 +1,68 @@
+syntax = "proto3";
+
+package cart;
+
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+import "protoc-gen-openapiv2/options/annotations.proto";
+
+option go_package = "github.com/KRUL-marketplace/krul_backend/internal/cart_service;cart_service";
+
+option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
+  info: {
+    title: "Krul API"
+    version: "1.0.0"
+  };
+
+  host: "localhost:8083",
+  schemes: HTTP,
+  schemes: HTTPS,
+  consumes: "application/json",
+  produces: "application/json"
+};
+
+// Описание сервиса CartService
+service CartService {
+  // Добавить в корзину
+  rpc Add(AddProductRequest) returns (AddProductResponse) {
+    option (google.api.http) = {
+      post: "/v1/cart/add",
+      body: "*"
+    };
+  }
+  // Удалить из корзины
+  rpc Delete(AddProductRequest) returns (AddProductResponse) {
+    option (google.api.http) = {
+      post: "/v1/cart/delete",
+      body: "*"
+    };
+  }
+}
+
+// Информация для добавления продукта в корзину
+message AddProductRequest {
+  string user_id = 1; // ID пользователя, который добавляет товар в корзину
+  CartProductInfo product = 2; // Структура продукта в корзине
+}
+
+// Ответ на добавление продукта в корзину
+message AddProductResponse {
+  string id = 1; // ID продукта
+}
+
+// Продукт в корзине
+message CartProduct {
+  string id = 1; // ID продукта
+  CartProductInfo info = 2; // Информация о продукте
+  google.protobuf.Timestamp created_at = 3; // Когда был добавлен
+}
+
+// Информация о продукте в корзине
+message CartProductInfo {
+  string productID = 1; // ID самого продукта
+  string name = 2; // Название продукта
+  string slug = 3; // Slug продукта
+  string image = 4; // Первое изображение продукта
+  uint32 price = 5; // Цена продукта
+  uint32 quantity = 6; // Количество продукта
+}
