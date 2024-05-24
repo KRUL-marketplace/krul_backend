@@ -56,6 +56,12 @@ service ProductCatalogService {
       get: "/v1/products" // HTTP GET запрос на /v1/products
     };
   }
+  // Получения товара определенного бренда
+  rpc GetAllBrandProducts(GetAllBrandProductsRequest) returns (GetAllBrandProductsResponse) {
+    option (google.api.http) = {
+      get: "/v1/products/brand/{id}"
+    };
+  }
   // Удаление продукта по его идентификатору
   rpc DeleteProductById(DeleteProductByIdRequest) returns (DeleteProductByIdResponse) {
     option (google.api.http) = {
@@ -335,6 +341,16 @@ message GetBrandBySlugRequest {
 // Ответ на запрос получения бренда по его slug
 message GetBrandBySlugResponse {
   Brand brand = 1; // Бренд
+}
+
+// Запрос на получение товара от определенного бренда
+message GetAllBrandProductsRequest {
+  uint32 id = 1; // Идентификатор бренда
+}
+
+// Ответ на запрос получения товара определенного бренда
+message GetAllBrandProductsResponse {
+  repeated Product products = 1; // Товары
 }
 
 // Запрос на удаление бренда по его идентификатору
