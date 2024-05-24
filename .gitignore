@@ -2,5 +2,3 @@
 bin
 .env
 vendor.protogen
-pkg
-statik
