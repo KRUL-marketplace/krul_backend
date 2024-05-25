@@ -14,7 +14,8 @@ type cartService struct {
 
 type CartService interface {
 	Add(ctx context.Context, userId string, cartProductInfo *model.CartProductInfo) (string, error)
-	Delete(ctx context.Context, userId string, cartProductInfo *model.CartProductInfo) (string, error)
+	GetUserCart(ctx context.Context, userId string) (*model.Cart, error)
+	Delete(ctx context.Context, userId string, cartProductInfo *model.DeleteCartProductInfo) (string, error)
 }
 
 func NewService(cartRepository repository.Repository, txManager db.TxManager) CartService {

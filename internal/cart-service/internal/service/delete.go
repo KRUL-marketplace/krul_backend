@@ -5,7 +5,7 @@ import (
 	"context"
 )
 
-func (s *cartService) Delete(ctx context.Context, userId string, cartProductInfo *model.CartProductInfo) (string, error) {
+func (s *cartService) Delete(ctx context.Context, userId string, cartProductInfo *model.DeleteCartProductInfo) (string, error) {
 	msg, err := s.cartRepository.Delete(ctx, userId, cartProductInfo)
 	if err != nil {
 		return msg, err

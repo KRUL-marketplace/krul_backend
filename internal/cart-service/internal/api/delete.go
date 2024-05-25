@@ -6,13 +6,13 @@ import (
 	"context"
 )
 
-func (i *Implementation) Delete(ctx context.Context, req *desc.AddProductRequest) (*desc.AddProductResponse, error) {
-	id, err := i.cartService.Delete(ctx, req.GetUserId(), converter.ToCartProductInfoFromDesc(req.GetProduct()))
+func (i *Implementation) Delete(ctx context.Context, req *desc.DeleteProductRequest) (*desc.DeleteProductResponse, error) {
+	_, err := i.cartService.Delete(ctx, req.GetUserId(), converter.ToDeleteCartProductInfofromDesc(req.GetInfo()))
 	if err != nil {
 		return nil, err
 	}
 
-	return &desc.AddProductResponse{
-		Id: id,
+	return &desc.DeleteProductResponse{
+		Message: "Success",
 	}, nil
 }

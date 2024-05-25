@@ -6,9 +6,12 @@ import (
 )
 
 type Cart struct {
-	UserID    string       `db:"user_id"`
-	CreatedAt time.Time    `db:"created_at"`
-	UpdatedAt sql.NullTime `db:"updated_at"`
+	CartID     string       `db:"cart_id"`
+	UserID     string       `db:"user_id"`
+	CreatedAt  time.Time    `db:"created_at"`
+	UpdatedAt  sql.NullTime `db:"updated_at"`
+	TotalPrice uint32
+	Products   []CartProduct
 }
 
 type CartProduct struct {
@@ -24,5 +27,10 @@ type CartProductInfo struct {
 	Slug      string `db:"slug"`
 	Image     string `db:"image"`
 	Price     uint32 `db:"price"`
+	Quantity  uint32 `db:"quantity"`
+}
+
+type DeleteCartProductInfo struct {
+	ProductId string `db:"product_id"`
 	Quantity  uint32 `db:"quantity"`
 }

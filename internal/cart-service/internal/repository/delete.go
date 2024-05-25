@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-func (r *repo) Delete(ctx context.Context, userId string, cartProductInfo *model.CartProductInfo) (string, error) {
+func (r *repo) Delete(ctx context.Context, userId string, cartProductInfo *model.DeleteCartProductInfo) (string, error) {
 	builder := sq.Select("cart_id").
 		PlaceholderFormat(sq.Dollar).
 		Where(sq.Eq{userIdColumn: userId}).

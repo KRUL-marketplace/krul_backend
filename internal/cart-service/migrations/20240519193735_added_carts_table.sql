@@ -11,7 +11,7 @@ CREATE TABLE carts (
 
 create table cart_items (
     item_id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    cart_id UUID NOT NULL,
+    cart_id UUID REFERENCES carts(cart_id) ON DELETE CASCADE,
     product_id UUID NOT NULL,
     quantity INT DEFAULT 1,
     name TEXT NOT NULL,
@@ -20,7 +20,6 @@ create table cart_items (
     price INT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (cart_id) REFERENCES carts(cart_id) ON DELETE CASCADE,
     UNIQUE (cart_id, product_id)
 );
 -- +goose StatementEnd
