@@ -5,11 +5,9 @@ import (
 	"cart-service/internal/repository/model"
 	"context"
 	sq "github.com/Masterminds/squirrel"
-	"log"
 )
 
 func (r *repo) GetUserCart(ctx context.Context, userId string) (*model.Cart, error) {
-	log.Printf("[MY] ID %v", userId)
 	builder := sq.Select(
 		"c.cart_id",
 		"c.user_id",
@@ -87,6 +85,5 @@ func (r *repo) GetUserCart(ctx context.Context, userId string) (*model.Cart, err
 
 	cart.TotalPrice = totalPrice
 
-	log.Printf("[MY] %+v", cart.Products)
 	return &cart, nil
 }

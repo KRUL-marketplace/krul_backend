@@ -4,7 +4,6 @@ import (
 	"cart-service/internal/converter"
 	desc "cart-service/pkg/cart-service"
 	"context"
-	"log"
 )
 
 func (i *Implementation) GetUserCart(ctx context.Context, req *desc.GetUserCartRequest) (*desc.GetUserCartResponse, error) {
@@ -12,7 +11,6 @@ func (i *Implementation) GetUserCart(ctx context.Context, req *desc.GetUserCartR
 	if err != nil {
 		return nil, err
 	}
-	log.Printf("[MY] %+v", cart.Products)
 
 	return &desc.GetUserCartResponse{
 		Cart: converter.ToCartFromService(cart),
